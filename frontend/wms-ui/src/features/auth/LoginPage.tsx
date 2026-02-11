@@ -1,60 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLoginMutation } from "./authApi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "./authSlice";
-import { jwtDecode } from "jwt-decode";
-import type { AppDispatch } from "../../app/store";
-
-interface JwtPayload {
-  role: string;
-  exp: number;
-}
+import { useNavigate } from "react-router-dom";
+import type { RootState } from "../../app/store";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [login] = useLoginMutation();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isAuthenticated, role } = useSelector(
+    (state: RootState) => state.auth,
+  );
 
   const handleLogin = async () => {
     try {
       const result = await login({ email, password }).unwrap();
 
-      const decoded = jwtDecode<JwtPayload>(result.token);
+      const payload = JSON.parse(atob(result.token.split(".")[1]));
+      const role =
+        payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 
       dispatch(
         setCredentials({
           token: result.token,
-          role: decoded.role,
+          role: role,
         }),
       );
-
-      alert("Login successful");
     } catch {
       alert("Invalid credentials");
     }
   };
 
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    if (role === "Admin") navigate("/admin", { replace: true });
+    else if (role === "Manager") navigate("/manager", { replace: true });
+    else if (role === "Employee") navigate("/employee", { replace: true });
+  }, [isAuthenticated, role, navigate]);
+
   return (
     <div style={{ padding: "40px" }}>
       <h2>Login</h2>
 
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-
+      <input placeholder="Email" onChange={(e) => setEmail(e.target.value)} />
+      <br />
       <br />
 
       <input
         type="password"
         placeholder="Password"
-        value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-
+      <br />
       <br />
 
       <button onClick={handleLogin}>Login</button>

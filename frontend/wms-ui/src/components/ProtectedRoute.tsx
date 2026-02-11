@@ -8,13 +8,18 @@ interface Props {
 }
 
 const ProtectedRoute = ({ children, role }: Props) => {
-  const { token, role: userRole } = useSelector(
+  const { isAuthenticated, role: userRole } = useSelector(
     (state: RootState) => state.auth,
   );
 
-  if (!token) return <Navigate to="/" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/" replace />;
+  }
 
-  if (role && userRole !== role) return <Navigate to="/" />;
+  if (role && userRole !== role) {
+    return <Navigate to="/" replace />;
+  }
+
   return <>{children}</>;
 };
 
