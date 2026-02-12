@@ -4,6 +4,7 @@ import ProtectedRoute from "../components/ProtectedRoute";
 import AdminDashboard from "../features/dashboard/AdminDashboard";
 import ManagerDashboard from "../features/dashboard/ManagerDashboard";
 import EmployeeDashboard from "../features/dashboard/EmployeeDashboard";
+import ManagerTasks from "../features/tasks/ManagerTasks";
 
 const AppRoutes = () => {
   return (
@@ -24,6 +25,14 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute role="Manager">
               <ManagerDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manager/tasks"
+          element={
+            <ProtectedRoute role="Manager">
+              <ManagerTasks />
             </ProtectedRoute>
           }
         />

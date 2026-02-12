@@ -1,4 +1,5 @@
 import { useGetAdminDashboardQuery } from "./dashboardApi";
+import Header from "../../components/Header";
 
 const AdminDashboard = () => {
   const { data, isLoading, error } = useGetAdminDashboardQuery();
@@ -7,16 +8,19 @@ const AdminDashboard = () => {
   if (error) return <h2>Error loading dashboard</h2>;
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h2>Admin Dashboard</h2>
+    <>
+      <Header />
+      <div style={{ padding: "40px" }}>
+        <h2>Admin Dashboard</h2>
 
-      <div style={{ marginTop: "20px" }}>
-        <p>Total Users: {data?.totalUsers}</p>
-        <p>Active Users: {data?.activeUsers}</p>
-        <p>Total Tasks: {data?.totalTasks}</p>
-        <p>Completed Tasks: {data?.completedTasks}</p>
+        <div style={{ marginTop: "20px" }}>
+          <p>Total Users: {data?.totalUsers}</p>
+          <p>Active Users: {data?.activeUsers}</p>
+          <p>Total Tasks: {data?.totalTasks}</p>
+          <p>Completed Tasks: {data?.completedTasks}</p>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
