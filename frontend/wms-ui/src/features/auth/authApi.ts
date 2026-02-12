@@ -29,6 +29,7 @@ const baseQueryWithReauth: typeof baseQuery = async (
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: baseQueryWithReauth,
+  tagTypes: ["Tasks"],
   endpoints: (builder) => ({
     login: builder.mutation<
       { token: string; expiresAt: string },

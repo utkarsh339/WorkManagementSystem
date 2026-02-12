@@ -1,5 +1,5 @@
 import { useGetManagerDashboardQuery } from "./dashboardApi";
-import Header from "../../components/Header";
+import Layout from "../../components/Layout";
 
 const ManagerDashboard = () => {
   const { data, isLoading, error } = useGetManagerDashboardQuery();
@@ -8,19 +8,16 @@ const ManagerDashboard = () => {
   if (error) return <h2>Error loading dashboard</h2>;
 
   return (
-    <>
-      <Header />
-      <div style={{ padding: "40px" }}>
-        <h2>Manager Dashboard</h2>
+    <Layout>
+      <h2>Manager Dashboard</h2>
 
-        <div style={{ marginTop: "20px" }}>
-          <p>Tasks Created By Me: {data?.tasksCreatedByMe}</p>
-          <p>Pending Tasks: {data?.pendingTasks}</p>
-          <p>In Progress Tasks: {data?.inProgressTasks}</p>
-          <p>Overdue Tasks: {data?.overdueTasks}</p>
-        </div>
+      <div style={{ marginTop: "20px" }}>
+        <p>Tasks Created By Me: {data?.tasksCreatedByMe}</p>
+        <p>Pending Tasks: {data?.pendingTasks}</p>
+        <p>In Progress Tasks: {data?.inProgressTasks}</p>
+        <p>Overdue Tasks: {data?.overdueTasks}</p>
       </div>
-    </>
+    </Layout>
   );
 };
 

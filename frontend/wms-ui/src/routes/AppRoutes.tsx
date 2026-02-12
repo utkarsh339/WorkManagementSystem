@@ -5,6 +5,7 @@ import AdminDashboard from "../features/dashboard/AdminDashboard";
 import ManagerDashboard from "../features/dashboard/ManagerDashboard";
 import EmployeeDashboard from "../features/dashboard/EmployeeDashboard";
 import ManagerTasks from "../features/tasks/ManagerTasks";
+import EmployeeTasks from "../features/tasks/EmployeeTasks";
 
 const AppRoutes = () => {
   return (
@@ -41,6 +42,23 @@ const AppRoutes = () => {
           element={
             <ProtectedRoute role="Employee">
               <EmployeeDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/tasks"
+          element={
+            <ProtectedRoute role="Admin">
+              <ManagerTasks />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/employee/tasks"
+          element={
+            <ProtectedRoute role="Employee">
+              <EmployeeTasks />
             </ProtectedRoute>
           }
         />

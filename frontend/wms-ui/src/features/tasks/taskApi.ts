@@ -5,7 +5,7 @@ export interface Task {
   id: string;
   title: string;
   description: string;
-  status: string;
+  status: number;
   priority: number;
   dueDate: string | null;
   assignedToUserId: string;
@@ -13,6 +13,7 @@ export interface Task {
 
 export const taskApi = createApi({
   reducerPath: "taskApi",
+
   baseQuery: fetchBaseQuery({
     baseUrl: "https://localhost:7112/api",
     prepareHeaders: (headers, { getState }) => {
@@ -25,9 +26,13 @@ export const taskApi = createApi({
       return headers;
     },
   }),
+
+  tagTypes: ["Tasks"],
+
   endpoints: (builder) => ({
     getTasks: builder.query<Task[], void>({
       query: () => "/tasks",
+      providesTags: ["Tasks"],
     }),
 
     createTask: builder.mutation<void, Partial<Task>>({
@@ -36,6 +41,7 @@ export const taskApi = createApi({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["Tasks"],
     }),
 
     deleteTask: builder.mutation<void, string>({
@@ -43,6 +49,16 @@ export const taskApi = createApi({
         url: `/tasks/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Tasks"],
+    }),
+
+    updateTaskStatus: builder.mutation<void, { id: string; status: number }>({
+      query: ({ id, status }) => ({
+        url: `/tasks/${id}/status`,
+        method: "PUT",
+        body: { status },
+      }),
+      invalidatesTags: ["Tasks"],
     }),
   }),
 });
@@ -51,4 +67,5 @@ export const {
   useGetTasksQuery,
   useCreateTaskMutation,
   useDeleteTaskMutation,
+  useUpdateTaskStatusMutation,
 } = taskApi;
