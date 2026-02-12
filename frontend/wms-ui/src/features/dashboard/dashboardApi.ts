@@ -24,8 +24,21 @@ export const dashboardApi = authApi.injectEndpoints({
     >({
       query: () => "/dashboard/manager",
     }),
+    getEmployeeDashboard: builder.query<
+      {
+        myTotalTasks: number;
+        completedTasks: number;
+        pendingTasks: number;
+      },
+      void
+    >({
+      query: () => "/dashboard/employee",
+    }),
   }),
 });
 
-export const { useGetAdminDashboardQuery, useGetManagerDashboardQuery } =
-  dashboardApi;
+export const {
+  useGetAdminDashboardQuery,
+  useGetManagerDashboardQuery,
+  useGetEmployeeDashboardQuery,
+} = dashboardApi;

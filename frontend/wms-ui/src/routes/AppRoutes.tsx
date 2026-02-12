@@ -3,6 +3,7 @@ import LoginPage from "../features/auth/LoginPage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import AdminDashboard from "../features/dashboard/AdminDashboard";
 import ManagerDashboard from "../features/dashboard/ManagerDashboard";
+import EmployeeDashboard from "../features/dashboard/EmployeeDashboard";
 
 const AppRoutes = () => {
   return (
@@ -30,9 +31,7 @@ const AppRoutes = () => {
           path="/employee"
           element={
             <ProtectedRoute role="Employee">
-              <div style={{ padding: "40px" }}>
-                <h2>Employee Dashboard</h2>
-              </div>
+              <EmployeeDashboard />
             </ProtectedRoute>
           }
         />
